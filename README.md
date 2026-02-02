@@ -428,3 +428,4 @@ For issues, questions, or suggestions:
 **Made with ❤️ for mental health awareness**
 
 Last Updated: February 2, 2026
+# Mental-health-WebApp
