@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: mindtrack-backend
+    runtime: node
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: MONGODB_URI
+        fromDatabase:
+          name: mindtrack
+          property: connectionString
+      - key: JWT_SECRET
+        sync: false
+      - key: GOOGLE_GENERATIVE_AI_KEY
+        sync: false
+      - key: NODE_ENV
+        value: production
+
+databases:
+  - name: mindtrack
+    dbName: mindtrack
