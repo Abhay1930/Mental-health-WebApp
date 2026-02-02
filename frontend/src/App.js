@@ -4,6 +4,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Analytics from './pages/Analytics';
+import MoodHistory from './pages/MoodHistory';
 import Chat from './pages/Chat';
 import './App.css';
 
@@ -15,6 +16,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/analytics" element={<Analytics />} />
+        <Route path="/mood-history" element={<MoodHistory />} />
         <Route path="/chat" element={<Chat />} />
         <Route path="/" element={<Navigate to="/dashboard" />} />
       </Routes>

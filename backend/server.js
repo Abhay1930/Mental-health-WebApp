@@ -22,6 +22,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 app.use('/api/auth', require('./src/routes/authRoutes'));
 app.use('/api/wellness', require('./src/routes/wellnessRoutes'));
 app.use('/api/chat', require('./src/routes/chatRoutes'));
+app.use('/api/analytics', require('./routes/analyticsRoutes'));
 
 // Health check
 app.get('/api/health', (req, res) => {

@@ -53,4 +53,10 @@ export const chatService = {
   clearHistory: () => api.delete('/chat/history'),
 };
 
+// Analytics services
+export const analyticsService = {
+  getMoodHistory: (params) => api.get('/analytics/history', { params }),
+  getSummary: (params) => api.get('/analytics/summary', { params })
+};
+
 export default api;
