@@ -429,3 +429,46 @@ For issues, questions, or suggestions:
 
 Last Updated: February 2, 2026
 # Mental-health-WebApp
+
+## Local Development
+
+Prerequisites:
+- Node.js (v18+ recommended)
+- npm
+- Python 3.11+ (for ML scripts)
+- MongoDB (local or Atlas)
+
+Start backend:
+
+```bash
+cd backend
+cp .env.example .env  # edit values if needed
+npm install
+npm run dev
+```
+
+Start frontend:
+
+```bash
+cd frontend
+npm install
+npm start
+```
+
+Train ML model (optional):
+
+```bash
+cd ml-model
+pip3 install -r requirements.txt
+python3 train_model.py
+```
+
+Test API (login):
+
+```bash
+curl -X POST http://localhost:5001/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@mindtrack.com","password":"Test@123456"}'
+```
+
+Repo: https://github.com/Abhay1930/Mental-health-WebApp.git
