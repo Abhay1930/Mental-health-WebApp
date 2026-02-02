@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { wellnessService } from '../services/apiService';
+import { wellnessService, analyticsService } from '../services/apiService';
 import { FiLogOut } from 'react-icons/fi';
 
 const WellnessForm = () => {
@@ -24,14 +24,26 @@ const WellnessForm = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [moodSummary, setMoodSummary] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) {
       navigate('/login');
+    } else {
+      loadMoodSummary();
     }
   }, [navigate]);
+
+  const loadMoodSummary = async () => {
+    try {
+      const res = await analyticsService.getSummary({ days: 7 });
+      if (res.data.success) setMoodSummary(res.data.summary);
+    } catch (err) {
+      console.error('Failed to load mood summary', err);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -88,16 +100,66 @@ const WellnessForm = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-100 to-blue-100 p-4">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
+        {/* Header with MoodHistory Navigation */}
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-4xl font-bold text-purple-600">MindTrack</h1>
-          <button
-            onClick={handleLogout}
-            className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
-          >
-            <FiLogOut /> Logout
-          </button>
+          <div className="flex gap-3">
+            <button
+              onClick={() => navigate('/mood-history')}
+              className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-semibold transition"
+            >
+              📊 Mood History
+            </button>
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
+            >
+              <FiLogOut /> Logout
+            </button>
+          </div>
         </div>
+
+        {/* Mood Summary Widget (Last 7 Days) */}
+        {moodSummary && (
+          <div className="bg-white rounded-xl shadow-md p-6 mb-8">
+            <h3 className="text-xl font-bold text-gray-800 mb-4">📈 Mood Insights (Last 7 Days)</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* Average Mood */}
+              <div className="bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg p-4 text-center">
+                <p className="text-gray-700 text-sm font-semibold">Average Mood</p>
+                <p className="text-3xl font-bold text-blue-700 mt-2">
+                  {moodSummary.avgMood.toFixed(1)} / 10
+                </p>
+              </div>
+
+              {/* Best Day */}
+              <div className="bg-gradient-to-br from-green-100 to-green-200 rounded-lg p-4 text-center">
+                <p className="text-gray-700 text-sm font-semibold">Best Day</p>
+                <p className="text-lg font-bold text-green-700 mt-2">
+                  {moodSummary.bestDay
+                    ? `${new Date(moodSummary.bestDay.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}: ${moodSummary.bestDay.mood.toFixed(1)}`
+                    : 'No data'}
+                </p>
+              </div>
+
+              {/* Worst Day */}
+              <div className="bg-gradient-to-br from-yellow-100 to-yellow-200 rounded-lg p-4 text-center">
+                <p className="text-gray-700 text-sm font-semibold">Worst Day</p>
+                <p className="text-lg font-bold text-yellow-700 mt-2">
+                  {moodSummary.worstDay
+                    ? `${new Date(moodSummary.worstDay.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}: ${moodSummary.worstDay.mood.toFixed(1)}`
+                    : 'No data'}
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={() => navigate('/mood-history')}
+              className="w-full mt-4 text-indigo-600 hover:text-indigo-800 font-semibold py-2 border-t border-gray-300 pt-4 transition"
+            >
+              View Full Analytics →
+            </button>
+          </div>
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Form */}
