@@ -1,0 +1,71 @@
+{
+  "model_type": "RandomForestClassifier",
+  "n_estimators": 100,
+  "max_depth": 15,
+  "train_accuracy": 1.0,
+  "test_accuracy": 1.0,
+  "classes": [
+    "happy",
+    "neutral",
+    "stressed"
+  ],
+  "features": [
+    "mood_today",
+    "avg_mood_last_3_days",
+    "sleep_hours",
+    "sleep_quality",
+    "exercise_minutes",
+    "stress_level",
+    "screen_time",
+    "social_interaction_minutes",
+    "water_intake_liters",
+    "productivity_level",
+    "anxiety_level"
+  ],
+  "feature_importance": [
+    {
+      "feature": "social_interaction_minutes",
+      "importance": 0.1525105910624679
+    },
+    {
+      "feature": "productivity_level",
+      "importance": 0.11809646610623567
+    },
+    {
+      "feature": "anxiety_level",
+      "importance": 0.10668309538781841
+    },
+    {
+      "feature": "avg_mood_last_3_days",
+      "importance": 0.09883333691785597
+    },
+    {
+      "feature": "sleep_hours",
+      "importance": 0.09801628031920633
+    },
+    {
+      "feature": "water_intake_liters",
+      "importance": 0.09648012521398033
+    },
+    {
+      "feature": "mood_today",
+      "importance": 0.09434496659915148
+    },
+    {
+      "feature": "exercise_minutes",
+      "importance": 0.08258789048179942
+    },
+    {
+      "feature": "screen_time",
+      "importance": 0.07166109316880763
+    },
+    {
+      "feature": "sleep_quality",
+      "importance": 0.04826473855019514
+    },
+    {
+      "feature": "stress_level",
+      "importance": 0.032521416192481716
+    }
+  ]
+}

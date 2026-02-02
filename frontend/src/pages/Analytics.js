@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { wellnessService } from '../services/apiService';
 import { FiLogOut, FiMenu } from 'react-icons/fi';
 import { MoodChart, HealthMetricsChart } from '../components/Charts';
 
@@ -26,23 +27,12 @@ const Analytics = () => {
       const token = localStorage.getItem('token');
       
       const [summaryRes, historyRes] = await Promise.all([
-        axios.get('http://localhost:5000/api/wellness/summary', {
-          headers: { Authorization: `Bearer ${token}` },
-          params: { days }
-        }),
-        axios.get('http://localhost:5000/api/wellness/history', {
-          headers: { Authorization: `Bearer ${token}` },
-          params: { days }
-        })
+        wellnessService.getSummary(days),
+        wellnessService.getHistory(days)
       ]);
 
-      if (summaryRes.data.success) {
-        setSummary(summaryRes.data.summary);
-      }
-
-      if (historyRes.data.success) {
-        setHistory(historyRes.data.entries);
-      }
+      if (summaryRes.data.success) setSummary(summaryRes.data.summary);
+      if (historyRes.data.success) setHistory(historyRes.data.entries);
     } catch (err) {
       console.error('Failed to load analytics:', err);
     } finally {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { chatService } from '../services/apiService';
 import { useNavigate } from 'react-router-dom';
 import { FiSend, FiLogOut } from 'react-icons/fi';
 
@@ -20,11 +21,7 @@ const Chat = () => {
 
   const loadChatHistory = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await axios.get(
-        'http://localhost:5000/api/chat/history',
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const response = await chatService.getChatHistory();
 
       if (response.data.success) {
         setMessages(response.data.messages || []);
@@ -48,12 +45,7 @@ const Chat = () => {
     setLoading(true);
 
     try {
-      const token = localStorage.getItem('token');
-      const response = await axios.post(
-        'http://localhost:5000/api/chat',
-        { message: inputMessage },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const response = await chatService.sendMessage(inputMessage);
 
       if (response.data.success) {
         setMessages(prev => [...prev, {

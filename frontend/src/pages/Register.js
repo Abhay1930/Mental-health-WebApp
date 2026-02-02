@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { authService } from '../services/apiService';
 import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
@@ -23,9 +24,11 @@ const Register = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post(
-        'http://localhost:5000/api/auth/register',
-        formData
+      const response = await authService.register(
+        formData.username,
+        formData.email,
+        formData.password,
+        formData.fullName
       );
 
       if (response.data.success) {

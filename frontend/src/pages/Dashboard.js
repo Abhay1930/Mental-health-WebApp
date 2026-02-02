@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { wellnessService } from '../services/apiService';
 import { FiLogOut } from 'react-icons/fi';
 
 const WellnessForm = () => {
@@ -47,14 +48,7 @@ const WellnessForm = () => {
     setSuccess('');
 
     try {
-      const token = localStorage.getItem('token');
-      const response = await axios.post(
-        'http://localhost:5000/api/wellness',
-        formData,
-        {
-          headers: { Authorization: `Bearer ${token}` }
-        }
-      );
+      const response = await wellnessService.addEntry(formData);
 
       if (response.data.success) {
         setPrediction(response.data.prediction);
